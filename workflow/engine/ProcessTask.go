@@ -559,7 +559,7 @@ func TaskNextNode(TaskID int) (Node, error) {
 			//任务节点的下一个节点永远只有一个，一个任务节点下不可能直接衍生出多个任务节点,因为衍生多个节点是网关的任务
 			//而本项目中是混合网关，任务节点下没有必要生成多个网关
 			var ProcExecutionNextNode database.ProcExecution
-			result := DB.Where("prev_node_id=?", taskInfo.NodeID).First(&ProcExecutionNextNode)
+			result := DB.Where("prev_node_id=?", taskInfo.NodeID).Where("proc_id = ?", taskInfo.ProcID).First(&ProcExecutionNextNode)
 			if result.Error != nil {
 				return Node{}, result.Error
 			}
